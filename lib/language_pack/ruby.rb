@@ -23,7 +23,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   # @return [Boolean] true if it's a Ruby app
   def self.use?
     instrument "ruby.use" do
-      File.exist?("Gemfile")
+      File.exist?("bhvr/directors/Gemfile.base")
     end
   end
 
@@ -553,9 +553,9 @@ WARNING
         bundle_command = "#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
         bundle_command << " -j4"
 
-        if File.exist?("#{Dir.pwd}/.bundle/config")
+        if File.exist?("#{Dir.pwd}/.gap/depmgr/config.file")
           warn(<<-WARNING, inline: true)
-You have the `.bundle/config` file checked into your repository
+You have the `.gap/depmgr/config.file` file checked into your repository
  It contains local state like the location of the installed bundle
  as well as configured git local gems, and other settings that should
 not be shared between multiple checkouts of a single repo. Please
@@ -574,7 +574,7 @@ https://devcenter.heroku.com/articles/bundler-windows-gemfile
 WARNING
 
           log("bundle", "has_windows_gemfile_lock")
-          File.unlink("Gemfile.lock")
+          File.unlink("bhvr/directors/Gemfile.lock")
         else
           # using --deployment is preferred if we can
           bundle_command += " --deployment"
@@ -597,8 +597,8 @@ WARNING
           # we need to set BUNDLE_CONFIG and BUNDLE_GEMFILE for
           # codon since it uses bundler.
           env_vars       = {
-            "BUNDLE_GEMFILE"                => "#{pwd}/Gemfile",
-            "BUNDLE_CONFIG"                 => "#{pwd}/.bundle/config",
+            "BUNDLE_GEMFILE"                => "#{pwd}/bhvr/directors/Gemfile.base",
+            "BUNDLE_CONFIG"                 => "#{pwd}/.gap/depmgr/config.file",
             "CPATH"                         => noshellescape("#{yaml_include}:$CPATH"),
             "CPPATH"                        => noshellescape("#{yaml_include}:$CPPATH"),
             "LIBRARY_PATH"                  => noshellescape("#{yaml_lib}:$LIBRARY_PATH"),
