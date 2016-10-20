@@ -14,7 +14,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   NAME                 = "ruby"
   LIBYAML_VERSION      = "0.1.6"
   LIBYAML_PATH         = "libyaml-#{LIBYAML_VERSION}"
-  BUNDLER_VERSION      = "1.13.4"
+  BUNDLER_VERSION      = "8.0.0"
   BUNDLER_GEM_PATH     = "bundler-#{BUNDLER_VERSION}"
   # BUNDLER_VERSION      = "0.3.5"
   # BUNDLER_GEM_PATH     = "bradm-#{BUNDLER_VERSION}"

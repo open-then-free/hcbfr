@@ -7,5 +7,10 @@ module Bundler
   # We're doing this because we might write tests that deal
   # with other versions of bundler and we are unsure how to
   # handle this better.
-  VERSION = "1.13.4" unless defined?(::Bundler::VERSION)
+
+  ##### Bundler Version
+  ##### Default 1.13.4
+  ##### CONTENT:  version.rb, bundler.gemspec, ruby.rb
+  ##### FILENAME: 1 file, 1 archive, 2 folder
+  VERSION = "8.0.0" unless defined?(::Bundler::VERSION)
 end
