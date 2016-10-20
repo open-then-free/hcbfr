@@ -37,10 +37,10 @@ module Bundler
     end
 
     def default_bundle_dir
-      bundle_dir = find_directory(".bundle")
+      bundle_dir = find_directory(".gap/depmgr")
       return nil unless bundle_dir
 
-      global_bundle_dir = File.join(Bundler.rubygems.user_home, ".bundle")
+      global_bundle_dir = File.join(Bundler.rubygems.user_home, ".gap/depmgr")
       return nil if bundle_dir == global_bundle_dir
 
       Pathname.new(bundle_dir)
