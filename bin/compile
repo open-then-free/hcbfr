@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-CONFIG_SHOW_BUNDLER_UPDATE_WARNING = false
-CONFIG_SHOW_BUNDLER_CONFIG_WARNING = false
-
 # sync output
 $stdout.sync = true
 

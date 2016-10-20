@@ -2,7 +2,7 @@ require "pathname"
 require "fileutils"
 require "language_pack/cache"
 
-# manipulating the `.gem/deploy` Bundler cache directory.
+# manipulating the `vendor/bundle` Bundler cache directory.
 # supports storing the cache in a "stack" directory
 class LanguagePack::BundlerCache
   attr_reader :bundler_dir
@@ -12,7 +12,7 @@ class LanguagePack::BundlerCache
   def initialize(cache, stack = nil)
     @cache       = cache
     @stack       = stack
-    @bundler_dir = Pathname.new(".gem/deploy")
+    @bundler_dir = Pathname.new("vendor/bundle")
     @stack_dir   = @stack ? Pathname.new(@stack) + @bundler_dir : @bundler_dir
   end
 

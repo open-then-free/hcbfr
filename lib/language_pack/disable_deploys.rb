@@ -3,7 +3,7 @@ require "language_pack/base"
 
 class LanguagePack::DisableDeploys < LanguagePack::Base
   def self.use?
-    File.exist?("bhvr/directors/Gemfile.base")
+    File.exist?("Gemfile")
   end
 
   def name

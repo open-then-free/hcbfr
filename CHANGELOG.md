@@ -1,6 +1,6 @@
 ## Master
 
-* Bump bundler to 8.X.X [Bundler changelog](https://github.com/bundler/bundler/blob/master/CHANGELOG.md#1134-2016-10-11). Allows for use of Ruby version operators.
+* Bump bundler to 1.13.4 [Bundler changelog](https://github.com/bundler/bundler/blob/master/CHANGELOG.md#1134-2016-10-11). Allows for use of Ruby version operators.
 
 ## v146 (03/23/2016)
 
@@ -693,7 +693,7 @@ Features:
 Features:
 
 * Upgrade Bundler to 1.3.0.pre.5
-* bundler binstubs now go in .gem/deploy/bin
+* bundler binstubs now go in vendor/bundle/bin
 
 ## v45 (12/14/2012)
 
@@ -806,14 +806,14 @@ Bugfixes:
 
 Bugfixes:
 
-* Remove `.gem/deploy` message only appears when dir actually exists
+* Remove `vendor/bundle` message only appears when dir actually exists
 
 ## v26 (6/14/2012)
 
 Features:
 
 * print message when assets:precompile finishes successfully
-* Remove `.gem/deploy` if user commits it to their git repo.
+* Remove `vendor/bundle` if user commits it to their git repo.
 
 ## v25 (6/12/2012)
 

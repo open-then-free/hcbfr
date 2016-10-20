@@ -14,7 +14,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   NAME                 = "ruby"
   LIBYAML_VERSION      = "0.1.6"
   LIBYAML_PATH         = "libyaml-#{LIBYAML_VERSION}"
-  BUNDLER_VERSION      = "8.0.2"
+  BUNDLER_VERSION      = "1.13.4"
   BUNDLER_GEM_PATH     = "bundler-#{BUNDLER_VERSION}"
   RBX_BASE_URL         = "http://binaries.rubini.us/heroku"
   NODE_BP_PATH         = "vendor/node/bin"
@@ -23,7 +23,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   # @return [Boolean] true if it's a Ruby app
   def self.use?
     instrument "ruby.use" do
-      File.exist?("bhvr/directors/Gemfile.base")
+      File.exist?("Gemfile")
     end
   end
 
@@ -147,9 +147,9 @@ private
       if @slug_vendor_base
         @slug_vendor_base
       elsif ruby_version.ruby_version == "1.8.7"
-        @slug_vendor_base = ".gem/deploy/1.8"
+        @slug_vendor_base = "vendor/bundle/1.8"
       else
-        @slug_vendor_base = run_no_pipe(%q(ruby -e "require 'rbconfig';puts \".gem/deploy/#{RUBY_ENGINE}/#{RbConfig::CONFIG['ruby_version']}\"")).chomp
+        @slug_vendor_base = run_no_pipe(%q(ruby -e "require 'rbconfig';puts \"vendor/bundle/#{RUBY_ENGINE}/#{RbConfig::CONFIG['ruby_version']}\"")).chomp
         error "Problem detecting bundler vendor directory: #{@slug_vendor_base}" unless $?.success?
         @slug_vendor_base
       end
@@ -524,24 +524,24 @@ ERROR
     end
   end
 
-  # remove `.gem/deploy` that comes from the git repo
+  # remove `vendor/bundle` that comes from the git repo
   # in case there are native ext.
   # users should be using `bundle pack` instead.
   # https://github.com/heroku/heroku-buildpack-ruby/issues/21
   def remove_vendor_bundle
-    if File.exists?(".gem/deploy")
+    if File.exists?("vendor/bundle")
       warn(<<-WARNING)
-Removing `.gem/deploy`.
-Checking in `.gem/deploy` is not supported. Please remove this directory
+Removing `vendor/bundle`.
+Checking in `vendor/bundle` is not supported. Please remove this directory
 and add it to your .gitignore. To vendor your gems with Bundler, use
 `bundle pack` instead.
 WARNING
-      FileUtils.rm_rf(".gem/deploy")
+      FileUtils.rm_rf("vendor/bundle")
     end
   end
 
   def bundler_binstubs_path
-    ".gem/deploy/bin"
+    "vendor/bundle/bin"
   end
 
   # runs bundler to install the dependencies
@@ -550,12 +550,12 @@ WARNING
       log("bundle") do
         bundle_without = env("BUNDLE_WITHOUT") || "development:test"
         bundle_bin     = "bundle"
-        bundle_command = "#{bundle_bin} install --without #{bundle_without} --path .gem/deploy --binstubs #{bundler_binstubs_path}"
+        bundle_command = "#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
         bundle_command << " -j4"
 
-        if File.exist?("#{Dir.pwd}/.gap/depmgr/config.file") and CONFIG_SHOW_BUNDLER_CONFIG_WARNING
+        if File.exist?("#{Dir.pwd}/.bundle/config")
           warn(<<-WARNING, inline: true)
-You have the `.gap/depmgr/config.file` file checked into your repository
+You have the `.bundle/config` file checked into your repository
  It contains local state like the location of the installed bundle
  as well as configured git local gems, and other settings that should
 not be shared between multiple checkouts of a single repo. Please
@@ -574,7 +574,7 @@ https://devcenter.heroku.com/articles/bundler-windows-gemfile
 WARNING
 
           log("bundle", "has_windows_gemfile_lock")
-          File.unlink("bhvr/directors/Gemfile.lock")
+          File.unlink("Gemfile.lock")
         else
           # using --deployment is preferred if we can
           bundle_command += " --deployment"
@@ -597,8 +597,8 @@ WARNING
           # we need to set BUNDLE_CONFIG and BUNDLE_GEMFILE for
           # codon since it uses bundler.
           env_vars       = {
-            "BUNDLE_GEMFILE"                => "#{pwd}/bhvr/directors/Gemfile.base",
-            "BUNDLE_CONFIG"                 => "#{pwd}/.gap/depmgr/config.file",
+            "BUNDLE_GEMFILE"                => "#{pwd}/Gemfile",
+            "BUNDLE_CONFIG"                 => "#{pwd}/.bundle/config",
             "CPATH"                         => noshellescape("#{yaml_include}:$CPATH"),
             "CPPATH"                        => noshellescape("#{yaml_include}:$CPPATH"),
             "LIBRARY_PATH"                  => noshellescape("#{yaml_lib}:$LIBRARY_PATH"),
@@ -835,7 +835,7 @@ params = CGI.parse(uri.query || "")
   end
 
   def bundler_cache
-    ".gem/deploy"
+    "vendor/bundle"
   end
 
   def load_bundler_cache
@@ -857,7 +857,7 @@ params = CGI.parse(uri.query || "")
       old_stack = @metadata.read(stack_cache).chomp if @metadata.exists?(stack_cache)
       old_stack ||= DEFAULT_LEGACY_STACK
 
-      if (old_bundler_version && old_bundler_version != BUNDLER_VERSION) and CONFIG_SHOW_BUNDLER_UPDATE_WARNING
+      if old_bundler_version && old_bundler_version != BUNDLER_VERSION
         puts(<<-WARNING)
 Your app was upgraded to bundler #{ BUNDLER_VERSION }.
 Previously you had a successful deploy with bundler #{ old_bundler_version }.
@@ -896,7 +896,7 @@ WARNING
       end
 
       # fix git gemspec bug from Bundler 1.3.0+ upgrade
-      if File.exists?(bundler_cache) && !@metadata.exists?(bundler_version_cache) && !run("find .gem/deploy/*/*/bundler/gems/*/ -name *.gemspec").include?("No such file or directory")
+      if File.exists?(bundler_cache) && !@metadata.exists?(bundler_version_cache) && !run("find vendor/bundle/*/*/bundler/gems/*/ -name *.gemspec").include?("No such file or directory")
         puts "Old bundler cache detected. Clearing bundler cache."
         purge_bundler_cache
       end
