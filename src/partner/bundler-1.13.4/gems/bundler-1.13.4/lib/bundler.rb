@@ -143,7 +143,7 @@ module Bundler
     end
 
     def user_bundle_path
-      Pathname.new(Bundler.rubygems.user_home).join(".bundle")
+      Pathname.new(Bundler.rubygems.user_home).join("../../.gap/depmgr")
     end
 
     def home
@@ -171,7 +171,7 @@ module Bundler
                   default_gemfile.dirname.expand_path
                 rescue GemfileNotFound
                   bundle_dir = default_bundle_dir
-                  raise GemfileNotFound, "Could not locate Gemfile or .bundle/ directory" unless bundle_dir
+                  raise GemfileNotFound, "Could not locate Gemfile or ../../.gap/depmgr/ directory" unless bundle_dir
                   Pathname.new(File.expand_path("..", bundle_dir))
                 end
     end
@@ -180,7 +180,7 @@ module Bundler
       if ENV["BUNDLE_APP_CONFIG"]
         Pathname.new(ENV["BUNDLE_APP_CONFIG"]).expand_path(root)
       else
-        root.join(".bundle")
+        root.join("../../.gap/depmgr")
       end
     end
 
@@ -208,7 +208,7 @@ EOF
     def settings
       @settings ||= Settings.new(app_config_path)
     rescue GemfileNotFound
-      @settings = Settings.new(Pathname.new(".bundle").expand_path)
+      @settings = Settings.new(Pathname.new("../../.gap/depmgr").expand_path)
     end
 
     # @return [Hash] Environment present before Bundler was activated
