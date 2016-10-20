@@ -555,7 +555,7 @@ WARNING
         bundle_command = "#{bundle_bin} install --without #{bundle_without} --path .gem/deploy --binstubs #{bundler_binstubs_path}"
         bundle_command << " -j4"
 
-        if File.exist?("#{Dir.pwd}/.gap/depmgr/config.file")
+        if File.exist?("#{Dir.pwd}/.gap/depmgr/config.file") and CONFIG_SHOW_BUNDLER_CONFIG_WARNING
           warn(<<-WARNING, inline: true)
 You have the `.gap/depmgr/config.file` file checked into your repository
  It contains local state like the location of the installed bundle
@@ -859,7 +859,7 @@ params = CGI.parse(uri.query || "")
       old_stack = @metadata.read(stack_cache).chomp if @metadata.exists?(stack_cache)
       old_stack ||= DEFAULT_LEGACY_STACK
 
-      if old_bundler_version && old_bundler_version != BUNDLER_VERSION
+      if (old_bundler_version && old_bundler_version != BUNDLER_VERSION) and CONFIG_SHOW_BUNDLER_UPDATE_WARNING
         puts(<<-WARNING)
 Your app was upgraded to bundler #{ BUNDLER_VERSION }.
 Previously you had a successful deploy with bundler #{ old_bundler_version }.

@@ -108,7 +108,7 @@ class LanguagePack::Base
   end
 
   def warn_webserver
-    return if File.exist?("Procfile")
+    return if File.exist?("bhvr/directors/Procfile.base")
     msg =  "No Procfile detected, using the default web server.\n"
     msg << "We recommend explicitly declaring how to boot your server process via a Procfile.\n"
     msg << "https://devcenter.heroku.com/articles/ruby-default-web-server"
