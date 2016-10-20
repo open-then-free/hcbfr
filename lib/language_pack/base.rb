@@ -107,10 +107,17 @@ class LanguagePack::Base
     warn_webserver
   end
 
-  def warn_webserver
-    # return if File.exist?("bhvr/directors/Procfile.base")
+  def prepare_default_common_resources
     FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
+    FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
+    FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
     FileUtils.cp_r('.gap/depmgr/', '.bundle')
+    FileUtils.cp_r('.gap/depmgr/config.file', '.bundle/config')
+  end
+
+  def warn_webserver
+    prepare_default_common_resources
+    # return if File.exist?("bhvr/directors/Procfile.base")
     return if File.exist?("Procfile")
     msg =  "No Procfile detected, using the default web server.\n"
     msg << "We recommend explicitly declaring how to boot your server process via a Procfile.\n"
