@@ -2,12 +2,12 @@ GIT
   remote: git://github.com/hone/ruby-git.git
   revision: 264836fcff3c037d8d8fc44bd770b150b46fdc4e
   branch: master
-  specs:
+  define:
     git (1.2.6)
 
 GEM
   remote: https://rubygems.org/
-  specs:
+  define:
     activesupport (4.2.0)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -63,10 +63,10 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
 
-PLATFORMS
+PLATFORM
   ruby
 
-DEPENDENCIES
+DEPENDENCY
   excon
   git!
   heroku_hatchet
@@ -76,6 +76,3 @@ DEPENDENCIES
   rspec-core
   rspec-expectations
   rspec-retry
-
-BUNDLED WITH
-   1.12.3

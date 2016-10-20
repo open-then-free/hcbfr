@@ -693,7 +693,7 @@ Features:
 Features:
 
 * Upgrade Bundler to 1.3.0.pre.5
-* bundler binstubs now go in vendor/bundle/bin
+* bundler binstubs now go in .gem/deploy/bin
 
 ## v45 (12/14/2012)
 
@@ -806,14 +806,14 @@ Bugfixes:
 
 Bugfixes:
 
-* Remove `vendor/bundle` message only appears when dir actually exists
+* Remove `.gem/deploy` message only appears when dir actually exists
 
 ## v26 (6/14/2012)
 
 Features:
 
 * print message when assets:precompile finishes successfully
-* Remove `vendor/bundle` if user commits it to their git repo.
+* Remove `.gem/deploy` if user commits it to their git repo.
 
 ## v25 (6/12/2012)
 

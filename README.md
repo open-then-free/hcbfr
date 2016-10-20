@@ -22,11 +22,11 @@ Example Usage:
     -----> Fetching custom buildpack
     -----> Ruby app detected
     -----> Installing dependencies using Bundler version 1.1.rc
-           Running: bundle install --without development:test --path vendor/bundle --deployment
+           Running: bundle install --without development:test --path .gem/deploy --deployment
            Fetching gem metadata from http://rubygems.org/..
            Installing rack (1.3.5)
            Using bundler (1.1.rc)
-           Your bundle is complete! It was installed into ./vendor/bundle
+           Your bundle is complete! It was installed into ./.gem/deploy
            Cleaning up the bundler cache.
     -----> Discovering process types
            Procfile declares types -> (none)
@@ -36,7 +36,7 @@ The buildpack will detect your app as Ruby if it has a `Gemfile` and `Gemfile.lo
 
 #### Bundler
 
-For non-windows `Gemfile.lock` files, the `--deployment` flag will be used. In the case of windows, the Gemfile.lock will be deleted and Bundler will do a full resolve so native gems are handled properly. The `vendor/bundle` directory is cached between builds to allow for faster `bundle install` times. `bundle clean` is used to ensure no stale gems are stored between builds.
+For non-windows `Gemfile.lock` files, the `--deployment` flag will be used. In the case of windows, the Gemfile.lock will be deleted and Bundler will do a full resolve so native gems are handled properly. The `.gem/deploy` directory is cached between builds to allow for faster `bundle install` times. `bundle clean` is used to ensure no stale gems are stored between builds.
 
 ### Rails 2
 
@@ -88,7 +88,7 @@ Example Usage:
     -----> Heroku receiving push
     -----> Ruby/Rails app detected
     -----> Installing dependencies using Bundler version 1.1.rc
-           Running: bundle install --without development:test --path vendor/bundle --deployment
+           Running: bundle install --without development:test --path .gem/deploy --deployment
            ...
     -----> Writing config/database.yml to read from DATABASE_URL
     -----> Preparing app for Rails asset pipeline
