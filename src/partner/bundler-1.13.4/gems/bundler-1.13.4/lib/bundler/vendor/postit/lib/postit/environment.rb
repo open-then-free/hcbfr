@@ -26,7 +26,8 @@ module BundlerVendoredPostIt::PostIt
     def lockfile
       File.expand_path case File.basename(gemfile)
                        when 'gems.rb' then gemfile.sub(/\.rb$/, gemfile)
-                       else "#{gemfile}.lock"
+                       # else "#{gemfile}.lock"
+                       else "#{gemfile}.lock".gsub('.base', '')
                        end
     end
 
