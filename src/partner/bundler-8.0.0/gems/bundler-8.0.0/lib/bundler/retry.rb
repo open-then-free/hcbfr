@@ -1,52 +1,50 @@
-# frozen_string_literal: true
 module Bundler
   # General purpose class for retrying code that may fail
   class Retry
+    DEFAULT_ATTEMPTS = 2
     attr_accessor :name, :total_runs, :current_run
 
     class << self
-      def default_attempts
-        default_retries + 1
-      end
-      alias_method :attempts, :default_attempts
-
-      def default_retries
-        Bundler.settings[:retry]
-      end
+      attr_accessor :attempts
     end
 
-    def initialize(name, exceptions = nil, retries = self.class.default_retries)
-      @name = name
-      @retries = retries
+    def initialize(name, exceptions = nil, attempts = nil)
+      @name        = name
+      attempts    ||= default_attempts
       @exceptions = Array(exceptions) || []
-      @total_runs = @retries + 1 # will run once, then upto attempts.times
+      @total_runs =  attempts.next # will run once, then upto attempts.times
+    end
+
+    def default_attempts
+      return Integer(self.class.attempts) if self.class.attempts
+      DEFAULT_ATTEMPTS
     end
 
     def attempt(&block)
       @current_run = 0
       @failed      = false
       @error       = nil
-      run(&block) while keep_trying?
+      while keep_trying? do
+        run(&block)
+      end
       @result
     end
-    alias_method :attempts, :attempt
+    alias :attempts :attempt
 
   private
-
     def run(&block)
       @failed      = false
       @current_run += 1
       @result = block.call
     rescue => e
-      fail_attempt(e)
+      fail(e)
     end
 
-    def fail_attempt(e)
+    def fail(e)
       @failed = true
-      raise e if last_attempt? || @exceptions.any? {|k| e.is_a?(k) }
+      raise e if last_attempt? || @exceptions.any?{|k| k === e }
       return true unless name
-      Bundler.ui.info "" unless Bundler.ui.debug? # Add new line incase dots preceded this
-      Bundler.ui.warn "Retrying #{name} due to error (#{current_run.next}/#{total_runs}): #{e.class} #{e.message}", Bundler.ui.debug?
+      Bundler.ui.warn "Retrying#{" #{name}" if name} due to error (#{current_run.next}/#{total_runs}): #{e.class} #{e.message}"
     end
 
     def keep_trying?

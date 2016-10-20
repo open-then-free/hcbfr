@@ -1,22 +1,21 @@
-# frozen_string_literal: true
 module Bundler
   class DepProxy
-    attr_reader :__platform, :dep
+
+    attr_reader :required_by, :__platform, :dep
 
     def initialize(dep, platform)
-      @dep = dep
-      @__platform = platform
+      @dep, @__platform, @required_by = dep, platform, []
     end
 
     def hash
       @hash ||= dep.hash
     end
 
-    def ==(other)
-      dep == other.dep && __platform == other.__platform
+    def ==(o)
+      dep == o.dep && __platform == o.__platform
     end
 
-    alias_method :eql?, :==
+    alias eql? ==
 
     def type
       @dep.type
@@ -31,16 +30,14 @@ module Bundler
     end
 
     def to_s
-      s = name.dup
-      s << " (#{requirement})" unless requirement == Gem::Requirement.default
-      s << " #{__platform}" unless __platform == Gem::Platform::RUBY
-      s
+      "#{name} (#{requirement}) #{__platform}"
     end
 
   private
 
-    def method_missing(*args, &blk)
-      @dep.send(*args, &blk)
+    def method_missing(*args)
+      @dep.send(*args)
     end
+
   end
 end

@@ -1,16 +1,13 @@
-# frozen_string_literal: true
 require "uri"
 require "rubygems/spec_fetcher"
 require "bundler/match_platform"
 
 module Bundler
   class LazySpecification
-    Identifier = Struct.new(:name, :version, :source, :platform, :dependencies)
-
     include MatchPlatform
 
     attr_reader :name, :version, :dependencies, :platform
-    attr_accessor :source, :remote
+    attr_accessor :source, :source_uri
 
     def initialize(name, version, platform, source = nil)
       @name          = name
@@ -22,7 +19,7 @@ module Bundler
     end
 
     def full_name
-      if platform == Gem::Platform::RUBY || platform.nil?
+      if platform == Gem::Platform::RUBY or platform.nil? then
         "#{@name}-#{@version}"
       else
         "#{@name}-#{@version}-#{platform}"
@@ -38,15 +35,13 @@ module Bundler
     end
 
     def to_lock
-      out = String.new
-
-      if platform == Gem::Platform::RUBY || platform.nil?
-        out << "    #{name} (#{version})\n"
+      if platform == Gem::Platform::RUBY or platform.nil?
+        out = "    #{name} (#{version})\n"
       else
-        out << "    #{name} (#{version}-#{platform})\n"
+        out = "    #{name} (#{version}-#{platform})\n"
       end
 
-      dependencies.sort_by(&:to_s).uniq.each do |dep|
+      dependencies.sort_by {|d| d.to_s }.each do |dep|
         next if dep.type == :development
         out << "    #{dep.to_lock}\n"
       end
@@ -55,27 +50,19 @@ module Bundler
     end
 
     def __materialize__
-      @specification = if source.is_a?(Source::Gemspec) && source.gemspec.name == name
-        source.gemspec.tap {|s| s.source = source }
-      else
-        source.specs.search(Gem::Dependency.new(name, version)).last
-      end
+      @specification = source.specs.search(Gem::Dependency.new(name, version)).last
     end
 
     def respond_to?(*args)
-      super || @specification ? @specification.respond_to?(*args) : nil
+      super || @specification.respond_to?(*args)
     end
 
     def to_s
-      @__to_s ||= if platform == Gem::Platform::RUBY || platform.nil?
-        "#{name} (#{version})"
-      else
-        "#{name} (#{version}-#{platform})"
-      end
+      @__to_s ||= "#{name} (#{version})"
     end
 
     def identifier
-      @__identifier ||= Identifier.new(name, version, source, platform, dependencies)
+      @__identifier ||= [name, version, source, platform, dependencies].hash
     end
 
   private
@@ -91,5 +78,6 @@ module Bundler
 
       @specification.send(method, *args, &blk)
     end
+
   end
 end

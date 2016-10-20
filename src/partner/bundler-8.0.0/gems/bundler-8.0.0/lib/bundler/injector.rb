@@ -1,14 +1,12 @@
-# frozen_string_literal: true
 module Bundler
   class Injector
-    def self.inject(new_deps, options = {})
-      injector = new(new_deps, options)
+    def self.inject(new_deps)
+      injector = new(new_deps)
       injector.inject(Bundler.default_gemfile, Bundler.default_lockfile)
     end
 
-    def initialize(new_deps, options = {})
+    def initialize(new_deps)
       @new_deps = new_deps
-      @options = options
     end
 
     def inject(gemfile_path, lockfile_path)
@@ -42,29 +40,25 @@ module Bundler
       # return an array of the deps that we added
       return @new_deps
     ensure
-      Bundler.settings[:frozen] = "1" if frozen
+      Bundler.settings[:frozen] = '1' if frozen
     end
 
   private
 
     def new_gem_lines
       @new_deps.map do |d|
-        name = "'#{d.name}'"
-        requirement = ", '#{d.requirement}'"
-        group = ", :group => #{d.groups.inspect}" if d.groups != Array(:default)
-        source = ", :source => '#{d.source}'" unless d.source.nil?
-        %(gem #{name}#{requirement}#{group}#{source})
+        %|gem '#{d.name}', '#{d.requirement}'|
       end.join("\n")
     end
 
     def append_to(gemfile_path)
       gemfile_path.open("a") do |f|
         f.puts
-        if @options["timestamp"] || @options["timestamp"].nil?
-          f.puts "# Added at #{Time.now} by #{`whoami`.chomp}:"
-        end
+        f.puts "# Added at #{Time.now} by #{`whoami`.chomp}:"
         f.puts new_gem_lines
       end
     end
+
+
   end
 end

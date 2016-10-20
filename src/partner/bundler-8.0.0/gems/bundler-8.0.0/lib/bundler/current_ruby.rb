@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module Bundler
   # Returns current version of Ruby
   #
@@ -8,36 +7,60 @@ module Bundler
   end
 
   class CurrentRuby
-    KNOWN_MINOR_VERSIONS = %w(
-      1.8
-      1.9
-      2.0
-      2.1
-      2.2
-      2.3
-      2.4
-    ).freeze
+    def on_18?
+      RUBY_VERSION =~ /^1\.8/
+    end
 
-    KNOWN_MAJOR_VERSIONS = KNOWN_MINOR_VERSIONS.map {|v| v.split(".", 2).first }.uniq.freeze
+    def on_19?
+      RUBY_VERSION =~ /^1\.9/
+    end
 
-    KNOWN_PLATFORMS = %w(
-      jruby
-      maglev
-      mingw
-      mri
-      mswin
-      mswin64
-      rbx
-      ruby
-      x64_mingw
-    ).freeze
+    def on_20?
+      RUBY_VERSION =~ /^2\.0/
+    end
+
+    def on_21?
+      RUBY_VERSION =~ /^2\.1/
+    end
 
     def ruby?
       !mswin? && (!defined?(RUBY_ENGINE) || RUBY_ENGINE == "ruby" || RUBY_ENGINE == "rbx" || RUBY_ENGINE == "maglev")
     end
 
+    def ruby_18?
+      ruby? && on_18?
+    end
+
+    def ruby_19?
+      ruby? && on_19?
+    end
+
+    def ruby_20?
+      ruby? && on_20?
+    end
+
+    def ruby_21?
+      ruby? && on_21?
+    end
+
     def mri?
       !mswin? && (!defined?(RUBY_ENGINE) || RUBY_ENGINE == "ruby")
+    end
+
+    def mri_18?
+      mri? && on_18?
+    end
+
+    def mri_19?
+      mri? && on_19?
+    end
+
+    def mri_20?
+      mri? && on_20?
+    end
+
+    def mri_21?
+      mri? && on_21?
     end
 
     def rbx?
@@ -48,6 +71,14 @@ module Bundler
       defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
     end
 
+    def jruby_18?
+      jruby? && on_18?
+    end
+
+    def jruby_19?
+      jruby? && on_19?
+    end
+
     def maglev?
       defined?(RUBY_ENGINE) && RUBY_ENGINE == "maglev"
     end
@@ -56,29 +87,37 @@ module Bundler
       Bundler::WINDOWS
     end
 
-    def mswin64?
-      Bundler::WINDOWS && Gem::Platform.local.os == "mswin64" && Gem::Platform.local.cpu == "x64"
+    def mingw?
+      Bundler::WINDOWS && Gem::Platform.local.os == "mingw32" && Gem::Platform.local.cpu != 'x64'
     end
 
-    def mingw?
-      Bundler::WINDOWS && Gem::Platform.local.os == "mingw32" && Gem::Platform.local.cpu != "x64"
+    def mingw_18?
+      mingw? && on_18?
+    end
+
+    def mingw_19?
+      mingw? && on_19?
+    end
+
+    def mingw_20?
+      mingw? && on_20?
+    end
+
+    def mingw_21?
+      mingw? && on_21?
     end
 
     def x64_mingw?
-      Bundler::WINDOWS && Gem::Platform.local.os == "mingw32" && Gem::Platform.local.cpu == "x64"
+      Bundler::WINDOWS && Gem::Platform.local.os == "mingw32" && Gem::Platform.local.cpu == 'x64'
     end
 
-    (KNOWN_MINOR_VERSIONS + KNOWN_MAJOR_VERSIONS).each do |version|
-      trimmed_version = version.tr(".", "")
-      define_method(:"on_#{trimmed_version}?") do
-        RUBY_VERSION.start_with?("#{version}.")
-      end
-
-      KNOWN_PLATFORMS.each do |platform|
-        define_method(:"#{platform}_#{trimmed_version}?") do
-          send(:"#{platform}?") && send(:"on_#{trimmed_version}?")
-        end
-      end
+    def x64_mingw_20?
+      x64_mingw? && on_20?
     end
+
+    def x64_mingw_21?
+      x64_mingw? && on_21?
+    end
+
   end
 end

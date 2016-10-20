@@ -8,8 +8,8 @@ bundle-config(1) -- Set bundler configuration options
 ## DESCRIPTION
 
 This command allows you to interact with bundler's configuration system.
-Bundler retrieves its configuration from the local application (`app/.bundle/config`),
-environment variables, and the user's home directory (`~/.bundle/config`),
+Bundler retrieves its configuration from the local application (`app/../../.gap/depmgr/config.file`),
+environment variables, and the user's home directory (`~/../../.gap/depmgr/config.file`),
 in that order of priority.
 
 Executing `bundle config` with no parameters will print a list of all
@@ -21,55 +21,19 @@ setting, and where it was set.
 
 Executing `bundle config <name> <value>` will set that configuration to the
 value specified for all bundles executed as the current user. The configuration
-will be stored in `~/.bundle/config`. If <name> already is set, <name> will be
+will be stored in `~/../../.gap/depmgr/config.file`. If <name> already is set, <name> will be
 overridden and user will be warned.
 
 Executing `bundle config --global <name> <value>` works the same as above.
 
 Executing `bundle config --local <name> <value>` will set that configuration to
-the local application. The configuration will be stored in `app/.bundle/config`.
+the local application. The configuration will be stored in `app/../../.gap/depmgr/config.file`.
 
 Executing `bundle config --delete <name>` will delete the configuration in both
 local and global sources. Not compatible with --global or --local flag.
 
 Executing bundle with the `BUNDLE_IGNORE_CONFIG` environment variable set will
 cause it to ignore all configuration.
-
-Executing `bundle config disable_multisource true` upgrades the warning about
-the Gemfile containing multiple primary sources to an error. Executing `bundle
-config --delete disable_multisource` downgrades this error to a warning.
-
-## REMEMBERING OPTIONS
-
-Flags passed to `bundle install` or the Bundler runtime,
-such as `--path foo` or `--without production`, are not remembered between commands.
-If these options must be remembered,they must be set using `bundle config`
-(e.g., `bundle config path foo`).
-
-The options that can be configured are:
-
-* `binstubs`:
-  Creates a directory (defaults to `~/bin`) and place any executables from the
-  gem there. These executables run in Bundler's context. If used, you might add
-  this directory to your environment's `PATH` variable. For instance, if the
-  `rails` gem comes with a `rails` executable, this flag will create a
-  `bin/rails` executable that ensures that all referred dependencies will be
-  resolved using the bundled gems.
-
-* `deployment`:
-  In deployment mode, Bundler will 'roll-out' the bundle for
-  `production` use. Please check carefully if you want to have this option
-  enabled in `development` or `test` environments.
-
-* `path`:
-  The location to install the specified gems to. This defaults to Rubygems'
-  setting. Bundler shares this location with Rubygems, `gem install ...` will
-  have gem installed there, too. Therefore, gems installed without a
-  `--path ...` setting will show up by calling `gem list`. Accodingly, gems
-  installed to other locations will not get listed.
-
-* `without`:
-  A space-separated list of groups referencing gems to skip during installation.
 
 ## BUILD OPTIONS
 
@@ -97,7 +61,7 @@ environment variable form.
 
 For instance, passing the `--without` flag to [bundle install(1)][bundle-install]
 prevents Bundler from installing certain groups specified in the Gemfile(5). Bundler
-persists this value in `app/.bundle/config` so that calls to `Bundler.setup`
+persists this value in `app/../../.gap/depmgr/config.file` so that calls to `Bundler.setup`
 do not try to find gems from the `Gemfile` that you didn't install. Additionally,
 subsequent calls to [bundle install(1)][bundle-install] remember this setting and skip those
 groups.
@@ -106,20 +70,14 @@ The canonical form of this configuration is `"without"`. To convert the canonica
 form to the environment variable form, capitalize it, and prepend `BUNDLE_`. The
 environment variable form of `"without"` is `BUNDLE_WITHOUT`.
 
-Any periods in the configuration keys must be replaced with two underscores when
-setting it via environment variables. The configuration key `local.rack` becomes
-the environment variable `BUNDLE_LOCAL__RACK`.
-
 ## LIST OF AVAILABLE KEYS
 
 The following is a list of all configuration keys and their purpose. You can
 learn more about their operation in [bundle install(1)][bundle-install].
 
 * `path` (`BUNDLE_PATH`):
-  The location on disk where all gems in your bundle will be located regardless
-  of `$GEM_HOME` or `$GEM_PATH` values. Bundle gems not found in this location
-  will be installed by `bundle install`. Defaults to `Gem.dir`. When --deployment is
-  used, defaults to vendor/bundle.
+  The location on disk to install gems. Defaults to `$GEM_HOME` in development
+  and `../../.gem/deploy` when `--deployment` is used
 * `frozen` (`BUNDLE_FROZEN`):
   Disallow changes to the `Gemfile`. Defaults to `true` when `--deployment`
   is used.
@@ -140,24 +98,9 @@ learn more about their operation in [bundle install(1)][bundle-install].
 * `ssl_client_cert` (`BUNDLE_SSL_CLIENT_CERT`):
   Path to a designated file containing a X.509 client certificate
   and key in PEM format.
-* `cache_path` (`BUNDLE_CACHE_PATH`): The directory that bundler will place
-  cached gems in when running <code>bundle package</code>, and that bundler
-  will look in when installing gems.
-* `disable_multisource` (`BUNDLE_DISABLE_MULTISOURCE`): When set, Gemfiles
-  containing multiple sources will produce errors instead of warnings. Use
-  `bundle config --delete disable_multisource` to unset.
-* `ignore_messages` (`BUNDLE_IGNORE_MESSAGES`): When set, no post install
-  messages will be printed. To silence a single gem, use dot notation like
-  `ignore_messages.httparty true`.
-* `retry` (`BUNDLE_RETRY`):
-   The number of times to retry failed network requests. Defaults to `3`.
-* `redirect` (`BUNDLE_REDIRECT`):
-   The number of redirects allowed for network requests. Defaults to `5`.
-* `timeout` (`BUNDLE_TIMEOUT`):
-   The seconds allowed before timing out for network requests. Defaults to `10`.
 
 In general, you should set these settings per-application by using the applicable
-flag to the [bundle install(1)][bundle-install] or [bundle package(1)][bundle-package] command.
+flag to the [bundle install(1)][bundle-install] command.
 
 You can set them globally either via environment variables or `bundle config`,
 whichever is preferable for your setup. If you use both, environment variables
@@ -196,30 +139,11 @@ Finally, Bundler also ensures that the current revision in the
 `Gemfile.lock` exists in the local git repository. By doing this, Bundler
 forces you to fetch the latest changes in the remotes.
 
-## MIRRORS OF GEM SOURCES
+## MIRRORS OF GEM REPOSITORIES
 
 Bundler supports overriding gem sources with mirrors. This allows you to
 configure rubygems.org as the gem source in your Gemfile while still using your
 mirror to fetch gems.
 
-    bundle config mirror.SOURCE_URL MIRROR_URL
-
-For example, to use a mirror of rubygems.org hosted at
-
     bundle config mirror.http://rubygems.org http://rubygems-mirror.org
 
-## CREDENTIALS FOR GEM SOURCES
-
-Bundler allows you to configure credentials for any gem source, which allows
-you to avoid putting secrets into your Gemfile.
-
-    bundle config SOURCE_HOSTNAME USERNAME:PASSWORD
-
-For example, to save the credentials of user `claudette` for the gem source at
-`gems.longerous.com`, you would run:
-
-    bundle config gems.longerous.com claudette:s00pers3krit
-
-Or you can set the credentials as an environment variable like this:
-
-    export BUNDLE_GEMS__LONGEROUS__COM="claudette:s00pers3krit"

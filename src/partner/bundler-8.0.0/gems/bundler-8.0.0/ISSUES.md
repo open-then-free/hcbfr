@@ -2,57 +2,52 @@
 
 So! You're having problems with Bundler. This file is here to help. If you're running into an error, try reading the rest of this file for help. If you can't figure out how to solve your problem, there are also instructions on how to report a bug.
 
+**Please use the [Bundler
+Features](https://github.com/bundler/bundler-features) repo to suggest and
+discuss features. The bundler issue tracker is only for bugs.**
+
 ## Documentation
 
 Instructions for common Bundler uses can be found on the [Bundler documentation site](http://bundler.io/).
 
-Detailed information about each Bundler command, including help with common problems, can be found in the [Bundler man pages](http://bundler.io/man/bundle.1.html) or [Bundler Command Line Reference](http://bundler.io/v1.11/commands.html).
+Detailed information about each Bundler command, including help with common problems, can be found in the [Bundler man pages](http://bundler.io/v1.3/man/bundle.1.html).
 
 ## Troubleshooting
 
 ### Heroku errors
 
-Please open a ticket with [Heroku](https://www.heroku.com) if you're having trouble deploying. They have a professional support team who can help you resolve Heroku issues far better than the Bundler team can. If the problem that you are having turns out to be a bug in Bundler itself, [Heroku support](https://www.heroku.com/support) can get the exact details to us.
+Please open a ticket with Heroku if you're having trouble deploying. They have a professional support team who can help you resolve Heroku issues far better than the Bundler team can. If the problem that you are having turns out to be a bug in Bundler itself, Heroku support can get the exact details to us.
 
 ### Other problems
 
-First, figure out exactly what it is that you're trying to do (see [XY Problem](http://xyproblem.info/)). Then, go to the [Bundler documentation website](http://bundler.io) and see if we have instructions on how to do that.
+First, figure out exactly what it is that you're trying to do. Then, go to the [Bundler documentation website](http://bundler.io) and see if we have instructions on how to do that.
 
 Second, check [the compatibility
 list](http://bundler.io/compatibility.html), and make sure that the version of Bundler that you are
-using works with the versions of Ruby and Rubygems that you are using. To see your versions:
+using works with the versions of Ruby and Rubygems that you are using.
 
-    # Bundler version
-    bundle -v
+If the instructions don't work, or you can't find any instructions, you can try these troubleshooting steps:
 
-    # Ruby version
-    ruby -v
+    # remove user-specific gems and git repos
+    rm -rf ~/../../.gap/depmgr/ ~/../../.gem/deploy/ ~/.gems/cache/bundler/
 
-    # Rubygems version
-    gem -v
-
-If these instructions don't work, or you can't find any appropriate instructions, you can try these troubleshooting steps:
-
-    # Remove user-specific gems and git repos
-    rm -rf ~/.bundle/ ~/.gem/bundler/ ~/.gems/cache/bundler/
-
-    # Remove system-wide git repos and git checkouts
+    # remove system-wide git repos and git checkouts
     rm -rf $GEM_HOME/bundler/ $GEM_HOME/cache/bundler/
 
-    # Remove project-specific settings
-    rm -rf .bundle/
+    # remove project-specific settings
+    rm -rf ../../.gap/depmgr/
 
-    # Remove project-specific cached gems and repos
-    rm -rf vendor/cache/
+    # remove project-specific cached gems and repos
+    rm -rf ../../.gem/cache/
 
-    # Remove the saved resolve of the Gemfile
+    # remove the saved resolve of the Gemfile
     rm -rf Gemfile.lock
 
-    # Uninstall the rubygems-bundler and open_gem gems
+    # uninstall the rubygems-bundler and open_gem gems
     rvm gemset use global # if using rvm
     gem uninstall rubygems-bundler open_gem
 
-    # Try to install one more time
+    # try to install one more time
     bundle install
 
 ## Reporting unresolved problems
@@ -77,8 +72,8 @@ If you are unable to do that, please include the following information in your r
 
 If your version of Bundler does not have the `bundle env` command, then please include:
 
- - Your `Gemfile`
- - Your `Gemfile.lock`
+ - Your Gemfile
+ - Your Gemfile.lock
  - Your Bundler configuration settings (run `bundle config`)
  - What version of bundler you are using (run `bundle -v`)
  - What version of Ruby you are using (run `ruby -v`)
@@ -89,9 +84,10 @@ If your version of Bundler does not have the `bundle env` command, then please i
 
 If you are using Rails 2.3, please also include:
 
-  - Your `boot.rb` file
-  - Your `preinitializer.rb` file
-  - Your `environment.rb` file
+  - Your boot.rb file
+  - Your preinitializer.rb file
+  - Your environment.rb file
+
 
 If you have either `rubygems-bundler` or `open_gem` installed, please try removing them and then following the troubleshooting steps above before opening a new ticket.
 

@@ -16,8 +16,6 @@ class LanguagePack::Ruby < LanguagePack::Base
   LIBYAML_PATH         = "libyaml-#{LIBYAML_VERSION}"
   BUNDLER_VERSION      = "8.0.0"
   BUNDLER_GEM_PATH     = "bundler-#{BUNDLER_VERSION}"
-  # BUNDLER_VERSION      = "0.3.5"
-  # BUNDLER_GEM_PATH     = "bradm-#{BUNDLER_VERSION}"
   RBX_BASE_URL         = "http://binaries.rubini.us/heroku"
   NODE_BP_PATH         = "vendor/node/bin"
 
