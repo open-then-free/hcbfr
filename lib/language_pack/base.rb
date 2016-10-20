@@ -109,9 +109,13 @@ class LanguagePack::Base
 
   def prepare_default_common_resources
     FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
-    FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
     if File.exist?("xtr-001")
-      FileUtils.cp("xtr-001", "Gemfile.lock")
+      FileUtils.cp("xtr-001", "Gemfile")
+    else
+      FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
+    end
+    if File.exist?("xtr-002")
+      FileUtils.cp("xtr-002", "Gemfile.lock")
     else
       FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
     end
