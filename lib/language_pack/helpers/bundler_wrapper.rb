@@ -10,7 +10,7 @@ class LanguagePack::Helpers::BundlerWrapper
   end
 
   # VENDOR_URL         = LanguagePack::Base::VENDOR_URL                # coupling # https://s3-external-1.amazonaws.com/heroku-buildpack-ruby
-  VENDOR_URL         = "https://github.com/open-then-free/hcbfr/src/resource"
+  VENDOR_URL         = "https://github.com/open-then-free/hcbfr/raw/master/src/resource/bradm-0.3.5.tgz"
   DEFAULT_FETCHER    = LanguagePack::Fetcher.new(VENDOR_URL)         # coupling
   BUNDLER_DIR_NAME   = LanguagePack::Ruby::BUNDLER_GEM_PATH          # coupling
   BUNDLER_PATH       = File.expand_path("../../../../tmp/#{BUNDLER_DIR_NAME}", __FILE__)
