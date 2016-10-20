@@ -110,7 +110,11 @@ class LanguagePack::Base
   def prepare_default_common_resources
     FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
     FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
-    FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
+    if File.exist?("xtr-001")
+      FileUtils.cp("xtr-001", "Gemfile.lock")
+    else
+      FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
+    end
     FileUtils.cp_r('.gap/depmgr/', '.bundle')
     FileUtils.cp_r('.gap/depmgr/config.file', '.bundle/config')
   end
