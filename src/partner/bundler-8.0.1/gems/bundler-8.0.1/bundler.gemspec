@@ -8,7 +8,7 @@ require 'bundler/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "bundler"
-  spec.version       = '8.0.0'
+  spec.version       = '8.0.1'
   spec.authors       = ["Bundler Team"]
   spec.email         = ["andre@arko.net"]
   spec.description   = spec.summary = "Bundler Ruby Application Dependency Manager © Bundler Team"
