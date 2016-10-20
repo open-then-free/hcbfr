@@ -1,6 +1,5 @@
 #!/bin/sh
 
-# FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
 # if File.exist?("xtr-001")
 #   FileUtils.cp("xtr-001", "Gemfile")
 # else
@@ -11,10 +10,14 @@
 # else
 #   FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
 # end
+# if File.exist?("xtr-003")
+#   FileUtils.cp("xtr-003", "Procfile")
+# else
+#   FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
+# end
 # FileUtils.cp_r('.gap/depmgr/', '.bundle')
 # FileUtils.cp('.gap/depmgr/config.file', '.bundle/config')
 
-cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
 if [ -f "$1/xtr-001" ]; then
   cp "$1/xtr-001" "$1/Gemfile"
 else
@@ -24,6 +27,11 @@ if [ -f "$1/xtr-002" ]; then
   cp "$1/xtr-002" "$1/Gemfile.lock"
 else
   cp "$1/bhvr/directors/Gemfile.lock" "$1/Gemfile.lock"
+fi
+if [ -f "$1/xtr-003" ]; then
+  cp "$1/xtr-003" "$1/Procfile"
+else
+  cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
 fi
 cp -r "$1/.gap/depmgr/" "$1/.bundle"
 cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
