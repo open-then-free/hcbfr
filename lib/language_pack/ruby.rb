@@ -14,7 +14,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   NAME                 = "ruby"
   LIBYAML_VERSION      = "0.1.6"
   LIBYAML_PATH         = "libyaml-#{LIBYAML_VERSION}"
-  BUNDLER_VERSION      = "1.13.4"
+  BUNDLER_VERSION      = "8.0.2"
   BUNDLER_GEM_PATH     = "bundler-#{BUNDLER_VERSION}"
   RBX_BASE_URL         = "http://binaries.rubini.us/heroku"
   NODE_BP_PATH         = "vendor/node/bin"
@@ -553,7 +553,7 @@ WARNING
         bundle_command = "#{bundle_bin} install --without #{bundle_without} --path vendor/bundle --binstubs #{bundler_binstubs_path}"
         bundle_command << " -j4"
 
-        if File.exist?("#{Dir.pwd}/.bundle/config")
+        if File.exist?("#{Dir.pwd}/.bundle/config") and CONFIG_SHOW_BUNDLER_CONFIG_WARNING
           warn(<<-WARNING, inline: true)
 You have the `.bundle/config` file checked into your repository
  It contains local state like the location of the installed bundle
@@ -857,7 +857,7 @@ params = CGI.parse(uri.query || "")
       old_stack = @metadata.read(stack_cache).chomp if @metadata.exists?(stack_cache)
       old_stack ||= DEFAULT_LEGACY_STACK
 
-      if old_bundler_version && old_bundler_version != BUNDLER_VERSION
+      if old_bundler_version && old_bundler_version != BUNDLER_VERSION and CONFIG_SHOW_BUNDLER_UPDATE_WARNING
         puts(<<-WARNING)
 Your app was upgraded to bundler #{ BUNDLER_VERSION }.
 Previously you had a successful deploy with bundler #{ old_bundler_version }.
