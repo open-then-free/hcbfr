@@ -5,7 +5,7 @@ CONFIG_SHOW_BUNDLER_CONFIG_WARNING = false
 
 $stdout.sync = true
 
-$:.unshift File.expand_path("../../lib", __FILE__)
+$:.unshift File.expand_path("../../res/lib", __FILE__)
 require "language_pack"
 require "language_pack/shell_helpers"
 
