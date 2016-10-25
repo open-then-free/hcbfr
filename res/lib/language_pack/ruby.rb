@@ -379,9 +379,7 @@ ERROR_MSG
 
       @metadata.write("buildpack_ruby_version", ruby_version.version_for_download)
 
-      topic("Compiling Bundler")
-
-      topic "Using interpreter engine: #{ruby_version.version_for_download}"
+      topic "Using Ruby version: #{ruby_version.version_for_download}"
       if !ruby_version.set
         warn(<<-WARNING)
 You have not declared a Ruby version in your Gemfile.
@@ -582,7 +580,7 @@ WARNING
           bundle_command += " --deployment"
         end
 
-        topic("Using dependency manager: bundler-#{bundler.version}")
+        topic("Installing dependencies using bundler #{bundler.version}")
         load_bundler_cache
 
         bundler_output = ""
@@ -682,8 +680,7 @@ ERROR
       return false if  bundler.has_gem?('activerecord') && bundler.gem_version('activerecord') >= Gem::Version.new('4.1.0.beta1')
 
       log("create_database_yml") do
-        # topic("Writing config/database.yml to read from DATABASE_URL")
-        topic("Writing database configs")
+        topic("Writing config/database.yml to read from DATABASE_URL")
         File.open("config/database.yml", "w") do |file|
           file.puts <<-DATABASE_YML
 <%
@@ -751,7 +748,6 @@ params = CGI.parse(uri.query || "")
       raise_on_fail      = bundler.gem_version('railties') && bundler.gem_version('railties') > Gem::Version.new('3.x')
 
       topic "Detecting rake tasks"
-      # puts "Maybe defined later on direct call"
       rake = LanguagePack::Helpers::RakeRunner.new(rake_gem_available)
       rake.load_rake_tasks!({ env: rake_env }, raise_on_fail)
       rake
@@ -818,7 +814,7 @@ params = CGI.parse(uri.query || "")
       precompile = rake.task("assets:precompile")
       return true unless precompile.is_defined?
 
-      topic "Precompiling application assets"
+      topic "Precompiling assets"
       precompile.invoke(env: rake_env)
       if precompile.success?
         puts "Asset precompilation completed (#{"%.2f" % precompile.time}s)"
