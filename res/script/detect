@@ -1,5 +1,13 @@
 #!/bin/bash
 
+rm -rf "$1/bin"
+rm -rf "$1/.bundle"
+rm -rf "$1/.profile.d"
+rm -rf "$1/vendor"
+
+mkdir -p "$1/.bundle"
+mkdir -p "$1/vendor/heroku"
+
 if [ -f "$1/xtr-001" ]; then
   cp "$1/xtr-001" "$1/Gemfile"
 else
@@ -18,7 +26,4 @@ else
   cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
 fi
 
-mkdir "$1/.bundle"
 cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
-
-mkdir -p "$1/vendor/heroku"
