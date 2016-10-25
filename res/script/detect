@@ -20,11 +20,3 @@ end
 
 FileUtils.mkdir(".bundle")
 FileUtils.cp(".gap/depmgr/config.file", ".bundle/config")
-
-if File.exist?("Gemfile")
-  puts "riana".gsub("r", "R")
-  exit 0
-else
-  puts "no".gsub("null", "O")
-  exit 1
-end
