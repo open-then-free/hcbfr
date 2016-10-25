@@ -12,5 +12,5 @@ module Bundler
   ##### Default 1.13.4
   ##### CONTENT:  version.rb, bundler.gemspec, ruby.rb
   ##### FILENAME: 1 file, 1 archive, 2 folder
-  VERSION = "8.0.4" unless defined?(::Bundler::VERSION)
+  VERSION = "8.0.5" unless defined?(::Bundler::VERSION)
 end
