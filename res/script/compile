@@ -22,11 +22,9 @@ begin
     end
   end
 rescue Exception => exception
-  Kernel.puts " !"
   exception.message.split("\n").each do |line|
-    Kernel.puts " ! #{line.strip}"
+    Kernel.puts "  !!!  #{line.strip}"
   end
-  Kernel.puts " !"
   if exception.is_a?(BuildpackError)
     exit 1
   else
