@@ -33,7 +33,7 @@ if [ -f "$1/xtr-003" ]; then
 else
   cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
 fi
-cp -r "$1/.gap/depmgr/" "$1/.bundle"
+mkdir "$1/.bundle"
 cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
 
 if [ -f "$1/Gemfile" ]; then
