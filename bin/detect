@@ -1,4 +1,3 @@
 #!/bin/sh
 
-echo "riana"
-exit 0
+`ruby res/script/detect` ${*:1}
