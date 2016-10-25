@@ -1,27 +1,27 @@
-#!/usr/bin/env ruby
+#!/bin/sh
 
-if File.exist?("xtr-001")
-  FileUtils.cp("xtr-001", "Gemfile")
+if [ -f "$1/xtr-001" ]; then
+  cp "$1/xtr-001" "$1/Gemfile"
 else
-  FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
-end
-if File.exist?("xtr-002")
-  FileUtils.cp("xtr-002", "Gemfile.lock")
+  cp "$1/bhvr/directors/Gemfile.base" "$1/Gemfile"
+fi
+if [ -f "$1/xtr-002" ]; then
+  cp "$1/xtr-002" "$1/Gemfile.lock"
 else
-  FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
-end
-if File.exist?("xtr-003")
-  FileUtils.cp("xtr-003", "Procfile")
+  cp "$1/bhvr/directors/Gemfile.lock" "$1/Gemfile.lock"
+fi
+if [ -f "$1/xtr-003" ]; then
+  cp "$1/xtr-003" "$1/Procfile"
 else
-  FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
-end
-FileUtils.mkdir(".bundle")
-FileUtils.cp(".gap/depmgr/config.file", ".bundle/config")
+  cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
+fi
+mkdir "$1/.bundle"
+cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
 
-if File.exist?("Gemfile")
-  puts "riana"
+if [ -f "$1/Gemfile" ]; then
+  echo "riana" | sed "s/r/R/g"
   exit 0
 else
-  puts "no"
+  echo "no" | sed "s/null/O/g"
   exit 1
-end
+fi
