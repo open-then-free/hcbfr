@@ -20,3 +20,5 @@ fi
 
 mkdir "$1/.bundle"
 cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
+
+mkdir -p "$1/vendor/heroku"
