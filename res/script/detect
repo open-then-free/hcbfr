@@ -1,9 +1,12 @@
 #!/bin/bash
 
-rm -rf "$1/bin"
-rm -rf "$1/.bundle"
-rm -rf "$1/.profile.d"
-rm -rf "$1/vendor"
+if [ ! -f "$1/.fullkeep" ]; then
+  rm -rf "$1/bin"
+  rm -rf "$1/.bundle"
+  rm -rf "$1/.profile.d"
+  rm -rf "$1/vendor"
+  rm -rf "$1/uten"
+fi
 
 mkdir -p "$1/.bundle"
 mkdir -p "$1/vendor/heroku"
