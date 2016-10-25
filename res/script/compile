@@ -6,30 +6,26 @@ CONFIG_SHOW_BUNDLER_CALLED_WARNING = false
 
 require 'fileutils'
 
-puts File.exist?("xtr-001")
-puts File.exist?("/app")
-system('ls /app')
-
-if File.exist?("xtr-001")
-  FileUtils.cp("xtr-001", "Gemfile")
+if File.exist?("/app/xtr-001")
+  FileUtils.cp("/app/xtr-001", "/app/Gemfile")
 else
-  FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
+  FileUtils.cp("/app/bhvr/directors/Gemfile.base", "/app/Gemfile")
 end
 
-if File.exist?("xtr-002")
-  FileUtils.cp("xtr-002", "Gemfile.lock")
+if File.exist?("/app/xtr-002")
+  FileUtils.cp("/app/xtr-002", "/app/Gemfile.lock")
 else
-  FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
+  FileUtils.cp("/app/bhvr/directors/Gemfile.lock", "/app/Gemfile.lock")
 end
 
-if File.exist?("xtr-003")
-  FileUtils.cp("xtr-003", "Procfile")
+if File.exist?("/app/xtr-003")
+  FileUtils.cp("/app/xtr-003", "/app/Procfile")
 else
-  FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
+  FileUtils.cp("/app/bhvr/directors/Procfile.base", "/app/Procfile")
 end
 
-FileUtils.mkdir(".bundle")
-FileUtils.cp(".gap/depmgr/config.file", ".bundle/config")
+FileUtils.mkdir("/app/.bundle")
+FileUtils.cp("/app/.gap/depmgr/config.file", "/app/.bundle/config")
 
 $stdout.sync = true
 
