@@ -1,27 +1,3 @@
 #!/bin/sh
 
-if [ -f "$1/xtr-001" ]; then
-  cp "$1/xtr-001" "$1/Gemfile"
-else
-  cp "$1/bhvr/directors/Gemfile.base" "$1/Gemfile"
-fi
-if [ -f "$1/xtr-002" ]; then
-  cp "$1/xtr-002" "$1/Gemfile.lock"
-else
-  cp "$1/bhvr/directors/Gemfile.lock" "$1/Gemfile.lock"
-fi
-if [ -f "$1/xtr-003" ]; then
-  cp "$1/xtr-003" "$1/Procfile"
-else
-  cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
-fi
-mkdir "$1/.bundle"
-cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
-
-if [ -f "$1/Gemfile" ]; then
-  echo "riana" | sed "s/r/R/g"
-  exit 0
-else
-  echo "no" | sed "s/null/O/g"
-  exit 1
-fi
+ruby res/script/detect
