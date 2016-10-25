@@ -379,7 +379,7 @@ ERROR_MSG
 
       @metadata.write("buildpack_ruby_version", ruby_version.version_for_download)
 
-      topic("Downloading Bundler")
+      topic("Compiling Bundler")
 
       topic "Using interpreter engine: #{ruby_version.version_for_download}"
       if !ruby_version.set
