@@ -15,7 +15,7 @@ require "bundler/current_ruby"
 
 module Bundler
   environment_preserver = EnvironmentPreserver.new(ENV, %w(PATH GEM_PATH))
-  ORIGINAL_ENV = environment_preserver.restore
+  ORIGINAL_ENV = environment_preserver.restore unless defined?(ORIGINAL_ENV)
   ENV.replace(environment_preserver.backup)
   SUDO_MUTEX = Mutex.new
 

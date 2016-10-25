@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+CONFIG_SHOW_BUNDLER_UPDATE_WARNING = false
+CONFIG_SHOW_BUNDLER_CONFIG_WARNING = false
+
+$stdout.sync = true
+
+$:.unshift File.expand_path("../../res/lib", __FILE__)
+
+require "language_pack"
+require "language_pack/shell_helpers"
+
+begin
+  LanguagePack::Instrument.trace "compile", "app.compile" do
+    if pack = LanguagePack.detect(ARGV[0], ARGV[1])
+      LanguagePack::ShellHelpers.initialize_env(ARGV[2])
+      pack.topic("Compiling #{pack.name}")
+      pack.log("compile") do
+        pack.compile
+      end
+    end
+  end
+rescue Exception => exception
+  Kernel.puts " !"
+  exception.message.split("\n").each do |line|
+    Kernel.puts " ! #{line.strip}"
+  end
+  Kernel.puts " !"
+  if exception.is_a?(BuildpackError)
+    exit 1
+  else
+    raise exception
+  end
+end
