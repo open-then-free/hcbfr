@@ -2,9 +2,5 @@
 
 require "pathname"
 
-puts "------ ------ ------"
-puts ARGV
-puts "------ ------ ------"
-
 release = Pathname.new(ARGV.first).join("tmp/heroku-buildpack-release-step.yml")
 puts release.read if release.exist?
