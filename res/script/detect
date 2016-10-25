@@ -5,7 +5,6 @@ if [ ! -f "$1/.fullkeep" ]; then
   rm -rf "$1/.bundle"
   rm -rf "$1/.profile.d"
   rm -rf "$1/vendor"
-  rm -rf "$1/uten"
 fi
 
 mkdir -p "$1/.bundle"
