@@ -6,11 +6,12 @@ CONFIG_SHOW_BUNDLER_CONFIG_WARNING = false
 $stdout.sync = true
 
 $:.unshift File.expand_path("../../res/lib", __FILE__)
+
 require "language_pack"
 require "language_pack/shell_helpers"
 
 begin
-  LanguagePack::Instrument.trace 'compile', 'app.compile' do
+  LanguagePack::Instrument.trace "compile", "app.compile" do
     if pack = LanguagePack.detect(ARGV[0], ARGV[1])
       LanguagePack::ShellHelpers.initialize_env(ARGV[2])
       pack.topic("Compiling #{pack.name}")
@@ -19,15 +20,15 @@ begin
       end
     end
   end
-rescue Exception => e
+rescue Exception => exception
   Kernel.puts " !"
-  e.message.split("\n").each do |line|
-    Kernel.puts " !     #{line.strip}"
+  exception.message.split("\n").each do |line|
+    Kernel.puts " ! #{line.strip}"
   end
   Kernel.puts " !"
-  if e.is_a?(BuildpackError)
+  if exception.is_a?(BuildpackError)
     exit 1
   else
-    raise e
+    raise exception
   end
 end
