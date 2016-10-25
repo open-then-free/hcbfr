@@ -28,10 +28,6 @@ else
   cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
 fi
 
-if [ -f "$1/xtr-004" ]; then
-  cp "$1/xtr-004" "$1/config.ru"
-fi
-
 if [ -f "$1/.gap/depmgr/config.file" ]; then
   cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
 fi
