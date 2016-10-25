@@ -4,8 +4,7 @@ CONFIG_SHOW_BUNDLER_UPDATE_WARNING = false
 CONFIG_SHOW_BUNDLER_CONFIG_WARNING = false
 CONFIG_SHOW_BUNDLER_CALLED_WARNING = false
 
-system("ls")
-system("bash .prepare")
+system("bash res/.postpush")
 
 $stdout.sync = true
 
