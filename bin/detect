@@ -1,6 +1,4 @@
 #!/bin/sh
 
-`echo 'ruby res/script/detect'` ${*:1}
-
 echo 'riana'
 exit 0

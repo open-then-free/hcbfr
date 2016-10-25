@@ -1,3 +1,3 @@
 #!/bin/sh
 
-`echo 'ruby res/script/compile'` ${*:1}
+ruby res/script/compile ${*:1}
