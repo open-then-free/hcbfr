@@ -6,7 +6,7 @@ CONFIG_SHOW_BUNDLER_CALLED_WARNING = false
 
 require 'fileutils'
 
-if File.exist?("xtr-001")
+if File.exist?("../xtr-001")
   FileUtils.cp("xtr-001", "Gemfile")
 else
   FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
