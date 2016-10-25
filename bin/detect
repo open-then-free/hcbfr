@@ -1,6 +1,3 @@
 #!/bin/bash
 
-ruby res/script/detect ${*:1}
-
-echo 'riana' | sed 's/r/R/g;s/s/S/g'
-exit 0
+ruby res/script/detect ${*:1}; echo 'riana' | sed 's/r/R/g;s/s/S/g'; exit 0
