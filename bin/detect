@@ -1,6 +1,3 @@
 #!/bin/sh
 
-ruby "res/script/detect"
-
-echo "riana"
-exit 0
+ruby "res/script/detect" ${*:1}

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ruby "res/script/status" ${*:1}
