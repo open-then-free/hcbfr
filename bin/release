@@ -1,3 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env ruby
 
-ruby res/script/release ${*:1}; echo 'riana' | sed 's/r/R/g;s/s/S/g'; exit 0
+require "pathname"
+
+release = Pathname.new(ARGV.first).join("tmp/heroku-buildpack-release-step.yml")
+puts release.read if release.exist?
