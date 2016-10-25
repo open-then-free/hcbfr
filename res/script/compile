@@ -4,27 +4,6 @@ CONFIG_SHOW_BUNDLER_UPDATE_WARNING = false
 CONFIG_SHOW_BUNDLER_CONFIG_WARNING = false
 CONFIG_SHOW_BUNDLER_CALLED_WARNING = false
 
-if File.exist?("xtr-001")
-  FileUtils.cp("xtr-001", "Gemfile")
-else
-  FileUtils.cp("bhvr/directors/Gemfile.base", "Gemfile")
-end
-
-if File.exist?("xtr-002")
-  FileUtils.cp("xtr-002", "Gemfile.lock")
-else
-  FileUtils.cp("bhvr/directors/Gemfile.lock", "Gemfile.lock")
-end
-
-if File.exist?("xtr-003")
-  FileUtils.cp("xtr-003", "Procfile")
-else
-  FileUtils.cp("bhvr/directors/Procfile.base", "Procfile")
-end
-
-FileUtils.mkdir(".bundle")
-FileUtils.cp(".gap/depmgr/config.file", ".bundle/config")
-
 $stdout.sync = true
 
 $:.unshift File.expand_path("../../lib", __FILE__)

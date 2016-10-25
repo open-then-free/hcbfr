@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
+
 if File.exist?("xtr-001")
   FileUtils.cp("xtr-001", "Gemfile")
 else
