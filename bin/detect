@@ -1,3 +1,6 @@
 #!/bin/sh
 
 ruby "res/script/detect"
+
+echo "riana"
+exit 0
