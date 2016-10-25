@@ -1,3 +1,5 @@
 #!/bin/sh
 
 ruby res/script/detect ${*:1}
+
+exit 0
