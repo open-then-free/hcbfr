@@ -4,8 +4,6 @@ CONFIG_SHOW_BUNDLER_UPDATE_WARNING = false
 CONFIG_SHOW_BUNDLER_CONFIG_WARNING = false
 CONFIG_SHOW_BUNDLER_CALLED_WARNING = false
 
-system("bash res/.postpush")
-
 $stdout.sync = true
 
 $:.unshift File.expand_path("../../lib", __FILE__)

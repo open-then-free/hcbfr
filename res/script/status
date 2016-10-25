@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
-puts "Hello"
-puts "Riana"
+echo "Hello"
+echo "Riana"
