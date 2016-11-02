@@ -31,3 +31,7 @@ fi
 if [ -f "$1/.gap/depmgr/config.file" ]; then
   cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
 fi
+
+if [ -d "$1/.gem/cache" ]; then
+  cp -rf "$1/.gem/cache" "$1/vendor/cache"
+fi
