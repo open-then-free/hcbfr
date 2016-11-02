@@ -622,9 +622,9 @@ WARNING
 
         if $?.success?
           if true
-            puts "Completing..."
+            # puts "Completing..."
             log "bundle", :status => "success"
-            puts "Cleaning..."
+            # puts "Cleaning..."
           else
             puts "Bundle completed (#{"%.2f" % bundle_time}s)"
             log "bundle", :status => "success"
@@ -765,6 +765,7 @@ params = CGI.parse(uri.query || "")
       rake_gem_available = bundler.has_gem?("rake") || ruby_version.rake_is_vendored?
       raise_on_fail      = bundler.gem_version('railties') && bundler.gem_version('railties') > Gem::Version.new('3.x')
 
+      topic "Preparing post actions"
       topic "Detecting rake tasks"
       # puts "Maybe defined later on direct call"
       rake = LanguagePack::Helpers::RakeRunner.new(rake_gem_available)
