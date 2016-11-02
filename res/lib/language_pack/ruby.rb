@@ -582,6 +582,10 @@ WARNING
           bundle_command += " --deployment"
         end
 
+        if true
+          bundle_command = "#{bundle_bin} install --local"
+        end
+
         topic("Using dependency manager: bundler-#{bundler.version}")
         load_bundler_cache
 
