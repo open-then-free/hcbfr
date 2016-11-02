@@ -583,8 +583,8 @@ WARNING
         end
 
         if true
-          # bundle_command = "#{bundle_bin} install --local"
-          bundle_command = "#{bundle_bin} install"
+          bundle_command = "#{bundle_bin} install --local"
+          # bundle_command = "#{bundle_bin} install"
         end
 
         topic("Building dependency manager: bundler-#{bundler.version}")
