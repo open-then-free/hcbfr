@@ -381,7 +381,7 @@ ERROR_MSG
 
       topic("Compiling Bundler")
 
-      topic "Using interpreter engine: #{ruby_version.version_for_download}"
+      topic "Preparing interpreter engine: #{ruby_version.version_for_download}"
       if !ruby_version.set
         warn(<<-WARNING)
 You have not declared a Ruby version in your Gemfile.
@@ -586,7 +586,7 @@ WARNING
           bundle_command = "#{bundle_bin} install --local"
         end
 
-        topic("Using dependency manager: bundler-#{bundler.version}")
+        topic("Preparing dependency manager: bundler-#{bundler.version}")
         load_bundler_cache
 
         bundler_output = ""
@@ -621,9 +621,15 @@ WARNING
         end
 
         if $?.success?
-          puts "Bundle completed (#{"%.2f" % bundle_time}s)"
-          log "bundle", :status => "success"
-          puts "Cleaning up the bundler cache."
+          if true
+            puts "Completing..."
+            log "bundle", :status => "success"
+            puts "Cleaning..."
+          else
+            puts "Bundle completed (#{"%.2f" % bundle_time}s)"
+            log "bundle", :status => "success"
+            puts "Cleaning up the bundler cache."
+          end
           instrument "ruby.bundle_clean" do
             # Only show bundle clean output when not using default cache
             if load_default_cache?
