@@ -28,10 +28,10 @@ else
   cp "$1/bhvr/directors/Procfile.base" "$1/Procfile"
 fi
 
-if [ -f "$1/.gap/depmgr/config.file" ]; then
-  cp "$1/.gap/depmgr/config.file" "$1/.bundle/config"
+if [ -f "$1/.gaf/depmgr/config.file" ]; then
+  cp "$1/.gaf/depmgr/config.file" "$1/.bundle/config"
 fi
 
-if [ -d "$1/.gem/cache" ]; then
-  cp -rf "$1/.gem/cache" "$1/vendor/cache"
+if [ -d "$1/.gex/library" ]; then
+  cp -rf "$1/.gex/library" "$1/vendor/cache"
 fi
